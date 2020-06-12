@@ -67,7 +67,7 @@ export default {
         height: 100%;
         padding-top: 1px;
         border-right: 2px solid lightgray;
-
+        overflow:auto;
     }
 
     .contacts-header {
