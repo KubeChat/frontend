@@ -6,7 +6,7 @@ import { Auth0Plugin } from "./auth";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLink, faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { domain, clientId } from "../auth_config.json";
+import { domain, clientId } from "../app_config.json";
 
 Vue.config.productionTip = false;
 
