@@ -1,4 +1,4 @@
-# CloudChat Frontend
+# KubeChat Frontend
 
 A VueJs client for the scalable chatting app. It has the following features:
 
