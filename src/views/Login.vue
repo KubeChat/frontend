@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="header">Welcome to CloudChat</h1>
+    <h1 class="header">Welcome to KubeChat</h1>
     <h5>Sign in with your Gmail and start chatting with your friends</h5>
   </div>
 </template>
