@@ -1,10 +1,10 @@
 import Axios from 'axios';
 
-const contactsApiEndpoint = `http://${window.location.hostname}:${window.location.port}/api/contacts`;
+const messagesHistoryApiEndpoint = `http://${window.location.hostname}:${window.location.port}/api/messages-history`;
 
-export async function getContacts() {
+export async function getChannelMessages(contactEmail) {
     try {
-        const response = await Axios.get(`${contactsApiEndpoint}/contacts`, {
+        const response = await Axios.get(`${messagesHistoryApiEndpoint}/messages/${contactEmail}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.jwt}`
@@ -16,9 +16,9 @@ export async function getContacts() {
     }
 }
 
-export async function addContact(contact) {
+export async function addMessage(message) {
     try {
-        await Axios.post(`${contactsApiEndpoint}/contacts`, JSON.stringify(contact), {
+        await Axios.post(`${messagesHistoryApiEndpoint}/messages`, JSON.stringify(message), {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.jwt}`

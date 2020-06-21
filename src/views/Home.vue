@@ -1,10 +1,10 @@
 <template>
   <div class="flex-container">
     <div class="contacts">
-      <contacts/>
+      <contacts @select-contact="switchContact"/>
     </div>
     <div class="chat">
-      <chat/>
+      <chat :contactEmail="activeContact"/>
     </div>
   </div>
 </template>
@@ -19,6 +19,16 @@ export default {
     Contacts,
     Chat
   },
+  data: function() {
+    return  {
+      activeContact: null
+    }
+  },
+  methods: {
+    switchContact: function(contact) {
+      this.activeContact = contact
+    }
+  }
 };
 </script>
 

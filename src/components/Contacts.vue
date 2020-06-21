@@ -6,7 +6,10 @@
         <div class="contacts">
             <div v-if="!loaded" class=loading> <p>Getting contacts...</p></div>
             <template v-else>
-                <div v-for="(contact, idx) in contacts" class="contact" :key=idx>
+                <div v-for="(contact, idx) in contacts" 
+                     class="contact" 
+                     :key=idx
+                     @click="selectContact(contact.contactEmail)">
                     <img
                     :src="contact.imageUrl"
                     alt="User's profile picture"
@@ -53,9 +56,15 @@ export default {
     },
     methods: {
         addContact: async function() {
-            const name = this.contactName;
-            const email = this.contactEmail;
-            await addContact({name, email});
+            const contactName = this.contactName;
+            const contactEmail = this.contactEmail;
+            await addContact({contactName, contactEmail});
+            this.contactName = '';
+            this.contactEmail = '';
+            this.contacts = await getContacts();
+        },
+        selectContact: function(contact) {
+            this.$emit('select-contact', contact);
         }
     }
 }
@@ -133,11 +142,9 @@ export default {
         margin-bottom: 0.5rem;
     }
 
-    .input {
-    }
-
     .button {
         width: 100%;
         margin-top: 1rem;
+        background-color: #3371E3;
     }
 </style>
