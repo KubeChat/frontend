@@ -1,10 +1,10 @@
 import Axios from 'axios';
 
-const contactsApiEndpoint = `http://${window.location.hostname}:${window.location.port}/api/contacts`;
+const apiEndpoint = `http://${window.location.hostname}:${window.location.port}/api/v0`;
 
 export async function getContacts() {
     try {
-        const response = await Axios.get(`${contactsApiEndpoint}/contacts`, {
+        const response = await Axios.get(`${apiEndpoint}/contacts`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.jwt}`
@@ -18,7 +18,7 @@ export async function getContacts() {
 
 export async function addContact(contact) {
     try {
-        await Axios.post(`${contactsApiEndpoint}/contacts`, JSON.stringify(contact), {
+        await Axios.post(`${apiEndpoint}/contacts`, JSON.stringify(contact), {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.jwt}`
