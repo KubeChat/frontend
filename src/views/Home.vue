@@ -12,6 +12,7 @@
 <script>
 import Contacts from "../components/Contacts";
 import Chat from "../components/Chat";
+import {updatePicture} from '../api/contacts-api'
 
 export default {
   name: "home",
@@ -28,6 +29,9 @@ export default {
     switchContact: function(contact) {
       this.activeContact = contact
     }
+  },
+  created: async function() {
+    await updatePicture()
   }
 };
 </script>

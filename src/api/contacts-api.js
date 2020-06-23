@@ -12,13 +12,26 @@ export async function getContacts() {
         });
         return response.data;
     } catch(e) {
-        return null;
+        return [];
     }
 }
 
 export async function addContact(contact) {
     try {
         await Axios.post(`${apiEndpoint}/contacts`, JSON.stringify(contact), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.jwt}`
+            },
+        });
+    } catch(e) {
+        return true;
+    }
+}
+
+export async function updatePicture() {
+    try {
+        await Axios.put(`${apiEndpoint}/contacts/pictures`, null, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.jwt}`
