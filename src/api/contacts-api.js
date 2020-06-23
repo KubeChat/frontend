@@ -1,6 +1,5 @@
 import Axios from 'axios';
-
-const apiEndpoint = `https://${window.location.hostname}:${window.location.port}/api/v0`;
+import { apiEndpoint } from '../config'
 
 export async function getContacts() {
     try {

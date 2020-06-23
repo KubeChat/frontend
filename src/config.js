@@ -1,0 +1,1 @@
+export const apiEndpoint = `https://${window.location.hostname}:${window.location.port}/api/v0`

@@ -4,7 +4,7 @@ import router from "./router";
 import { Auth0Plugin } from "./auth";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faLink, faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";
+import { faLink, faUser, faPowerOff, faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { domain, clientId } from "../app_config.json";
 
@@ -22,7 +22,7 @@ Vue.use(Auth0Plugin, {
   }
 });
 
-library.add(faLink, faUser, faPowerOff);
+library.add(faLink, faUser, faPowerOff, faPaperclip);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 new Vue({
