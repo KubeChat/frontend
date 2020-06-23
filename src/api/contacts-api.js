@@ -31,7 +31,7 @@ export async function addContact(contact) {
 
 export async function updatePicture() {
     try {
-        await Axios.put(`${apiEndpoint}/pictures`, null, {
+        await Axios.put(`${apiEndpoint}/contacts/pictures`, null, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.jwt}`
