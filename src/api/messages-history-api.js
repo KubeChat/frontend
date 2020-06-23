@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-const apiEndpoint = `http://${window.location.hostname}:${window.location.port}/api/v0`;
+const apiEndpoint = `https://${window.location.hostname}:${window.location.port}/api/v0`;
 
 export async function getChannelMessages(contactEmail) {
     try {

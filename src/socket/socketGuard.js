@@ -6,7 +6,7 @@ export const socketGuard = (from, to, next) => {
     if (!Vue.prototype.$socket) {
         Vue.use(new VueSocketIO({
             debug: true,
-            connection: socketio(`http://${window.location.hostname}:${window.location.port}`, {
+            connection: socketio(`https://${window.location.hostname}:${window.location.port}`, {
                 path: '/api/v0/messages',
                 transportOptions: {
                   polling: {
