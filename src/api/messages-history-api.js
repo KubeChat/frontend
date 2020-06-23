@@ -58,7 +58,7 @@ export async function getAttachmentUrl(fileName) {
                 'Authorization': `Bearer ${localStorage.jwt}`
             },
         });
-        return response.data;
+        return response.data.attachmentUrl;
     } catch(e) {
         return null;
     }
