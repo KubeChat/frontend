@@ -79,7 +79,7 @@ export default {
             let fileName = null;
             let attachmentUrl = null;
             if (this.file) {
-                fileName = `${this.$auth.user.email}_${new Date().getTime}`;
+                fileName = `${this.$auth.user.email}_${new Date().getTime()}`;
                 const signedUrl = await getSignedUrl(fileName)
                 await uploadAttachment(signedUrl, this.file);
                 attachmentUrl = await getAttachmentUrl(fileName);
@@ -99,8 +99,10 @@ export default {
             })
         },
         handleFileUpload(){
-            this.file = this.$refs.file.files[0];
-            this.$refs.file.value = ''
+            this.$nextTick(() => {
+                this.file = this.$refs.file.files[0];
+                this.$refs.file.value = ''
+            })
         },
     },
     watch: {

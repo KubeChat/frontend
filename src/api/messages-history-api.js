@@ -36,7 +36,7 @@ export async function getSignedUrl(fileName) {
                 'Authorization': `Bearer ${localStorage.jwt}`
             },
         });
-        return response.data;
+        return response.data.url;
     } catch(e) {
         return null;
     }
