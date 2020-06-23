@@ -44,7 +44,7 @@ export async function getSignedUrl(fileName) {
 
 export async function uploadAttachment(url, file) {
     try {
-        await Axios.put(url, file);
+        await Axios.put(url, file, { headers: { 'Content-Type': file.type } });
     } catch(e) {
         return true;
     }
