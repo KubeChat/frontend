@@ -11,7 +11,7 @@
                      :key=idx
                      @click="selectContact(contact.contactEmail)">
                     <img
-                    :src="contact.imageUrl"
+                    :src="getPicture(contact)"
                     alt="User's profile picture"
                     class="nav-user-profile rounded-circle contact-image"
                     width="50"
@@ -65,6 +65,12 @@ export default {
         },
         selectContact: function(contact) {
             this.$emit('select-contact', contact);
+        },
+        getPicture: function(contact) {
+            if (contact.imageUrl) {
+                return contact.imageUrl;
+            }
+            return require('../assets/kubepicture.png')
         }
     }
 }
