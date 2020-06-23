@@ -1,6 +1,5 @@
 import Axios from 'axios';
-
-const apiEndpoint = `https://${window.location.hostname}:${window.location.port}/api/v0`;
+import { apiEndpoint } from '../config'
 
 export async function getChannelMessages(contactEmail) {
     try {
@@ -12,7 +11,7 @@ export async function getChannelMessages(contactEmail) {
         });
         return response.data;
     } catch(e) {
-        return null;
+        return [];
     }
 }
 
@@ -26,5 +25,41 @@ export async function addMessage(message) {
         });
     } catch(e) {
         return true;
+    }
+}
+
+export async function getSignedUrl(fileName) {
+    try {
+        const response = await Axios.get(`${apiEndpoint}/messages-history/signed-url/${fileName}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.jwt}`
+            },
+        });
+        return response.data;
+    } catch(e) {
+        return null;
+    }
+}
+
+export async function uploadAttachment(url, file) {
+    try {
+        await Axios.put(url, file);
+    } catch(e) {
+        return true;
+    }
+}
+
+export async function getAttachmentUrl(fileName) {
+    try {
+        const response = await Axios.get(`${apiEndpoint}/messages-history/attachments/${fileName}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.jwt}`
+            },
+        });
+        return response.data;
+    } catch(e) {
+        return null;
     }
 }

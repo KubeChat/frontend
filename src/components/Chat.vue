@@ -5,6 +5,13 @@
         </div>
         <div v-else class="chat-container">
             <div class="bottom-container">
+                <div class="attachment-container">
+                    <input class="file-input" type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                    <label for="file">
+                        <font-awesome-icon class="pointer" size="2x" icon="paperclip" />
+                    </label>
+                    <div v-if="file" class="attached"></div>
+                </div>
                 <div class="typing-container">
                     <input
                         v-model="text"
@@ -26,7 +33,12 @@
                     <div
                         class="message" 
                         v-bind:class="{'message-right': message.mine, 'message-left': !message.mine}">
-                        {{message.text}}
+                        <div v-if="message.text">
+                            {{message.text}}
+                        </div>
+                        <div class="image-message" v-if="message.attachmentUrl">
+                            <img :src="message.attachmentUrl" width="300" height="300"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,7 +48,7 @@
 
 <script>
 
-import { getChannelMessages, addMessage } from '../api/messages-history-api'
+import { getChannelMessages, addMessage, getSignedUrl, uploadAttachment, getAttachmentUrl } from '../api/messages-history-api'
 
 export default {
     name: "Chat",
@@ -47,7 +59,7 @@ export default {
             this.connected = true
         },
         message: function(data) {
-            this.messagesList.push({ mine: false, text: data.text })
+            this.messagesList.push({ mine: false, text: data.text, attachmentUrl: data.attachmentUrl })
             this.scrollToBottom();
         }
     },
@@ -55,19 +67,29 @@ export default {
         return {
             connected: false,
             text: '',
-            messagesList: []
+            messagesList: [],
+            file: null
         }
     },
     methods: {
         sendMessage: async function() {
-            if (!this.text) {
+            if (!this.text.length && !this.file) {
                 return;
             }
-            this.$socket.emit('message', { to: this.contactEmail, text: this.text });
-            this.messagesList.push({ mine: true, text: this.text })
+            let fileName = null;
+            let attachmentUrl = null;
+            if (this.file) {
+                fileName = `${this.$auth.user.email}_${new Date().getTime}`;
+                const signedUrl = await getSignedUrl(fileName)
+                await uploadAttachment(signedUrl, this.file);
+                attachmentUrl = await getAttachmentUrl(fileName);
+            }
+            this.$socket.emit('message', { to: this.contactEmail, text: this.text, attachmentUrl });
+            this.messagesList.push({ mine: true, text: this.text, attachmentUrl })
             this.scrollToBottom()
-            await addMessage({ to: this.contactEmail, text: this.text })
+            await addMessage({ to: this.contactEmail, text: this.text, fileName })
             this.text = '';
+            this.file = null
         },
         scrollToBottom() {
             this.$nextTick(() => {
@@ -75,7 +97,11 @@ export default {
                 const scrollHeight = scrollable.scrollHeight;
                 scrollable.scrollTop = scrollHeight;
             })
-        }
+        },
+        handleFileUpload(){
+            this.file = this.$refs.file.files[0];
+            this.$refs.file.value = ''
+        },
     },
     watch: {
         async contactEmail(val) {
@@ -106,8 +132,24 @@ export default {
         padding: 1rem;
     }
 
+    .attachment-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex: 0 0 5%;
+        padding-right: 1rem;
+    }
+
+    .attached {
+        background-color: #3371E3;
+        width: 1rem;
+        height: 0.2rem;
+        border-radius: 3px;
+    }
+
     .typing-container {
-        flex: 0 0 75%;
+        flex: 0 0 70%;
         padding-right: 1rem;
     }
 
@@ -157,6 +199,12 @@ export default {
         padding: 0.5rem;
         border-radius: 10px;
         max-width: 60%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .image-message {
+        padding-top: 0.5rem;
     }
 
     .message-right {
@@ -169,5 +217,13 @@ export default {
         float: left;
         background-color: lightgrey;
         color: black;
+    }
+
+    .file-input {
+        display: none;
+    }
+
+    .pointer {
+        cursor: pointer;
     }
 </style>
