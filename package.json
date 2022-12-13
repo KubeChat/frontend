@@ -13,7 +13,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.7",
     "axios": "^0.18.1",
     "core-js": "^2.6.9",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "morgan": "^1.9.1",
     "socket.io-client": "^2.3.0",
     "vue": "^2.6.10",
